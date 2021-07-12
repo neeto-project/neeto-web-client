@@ -27,7 +27,7 @@ export const IconButton: FunctionComponent<Props> = ({
   };
   return (
     <button
-      className={`no-border bg-transparent hover:brightness-130 p-0 ${
+      className={`no-border cursor-pointer bg-transparent hover:brightness-130 p-0 ${
         className ?? ''
       }`}
       onClick={click}

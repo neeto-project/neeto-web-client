@@ -15,18 +15,16 @@ const PREFERENCE_IDS = [
 ] as const;
 
 export type PreferenceId = typeof PREFERENCE_IDS[number];
-interface PreferenceMenuItem {
+interface PreferencesMenuItem {
   readonly id: PreferenceId;
   readonly icon: IconType;
   readonly label: string;
 }
 
-type PreferencesMenu = PreferenceMenuItem[];
-
 /**
  * Items are in order of appearance
  */
-const PREFERENCES_MENU: PreferencesMenu = [
+const PREFERENCES_MENU_ITEMS: PreferencesMenuItem[] = [
   { id: 'general', label: 'General', icon: 'settings' },
   { id: 'account', label: 'Account', icon: 'user' },
   { id: 'appearance', label: 'Appearance', icon: 'themes' },
@@ -38,20 +36,23 @@ const PREFERENCES_MENU: PreferencesMenu = [
   { id: 'help-feedback', label: 'Help & feedback', icon: 'help' },
 ];
 
-export class Preferences {
-  private _selectedPane: PreferenceId = 'general';
+export class PreferencesMenu {
+  // TODO change to 'general' before merge
+  private _selectedPane: PreferenceId = 'security';
 
-  private _twoFactorAuth: TwoFactorAuth;
-
-  constructor(private readonly _menu: PreferencesMenu = PREFERENCES_MENU) {
-    this._twoFactorAuth = new TwoFactorAuth();
-    makeAutoObservable<Preferences, '_selectedPane' | '_twoFactorAuth'>(this, {
-      _twoFactorAuth: observable,
-      _selectedPane: observable,
-    });
+  constructor(
+    private readonly _menu: PreferencesMenuItem[] = PREFERENCES_MENU_ITEMS
+  ) {
+    makeAutoObservable<PreferencesMenu, '_selectedPane' | '_twoFactorAuth'>(
+      this,
+      {
+        _twoFactorAuth: observable,
+        _selectedPane: observable,
+      }
+    );
   }
 
-  get menuItems(): (PreferenceMenuItem & {
+  get menuItems(): (PreferencesMenuItem & {
     selected: boolean;
   })[] {
     return this._menu.map((p) => ({
@@ -68,9 +69,5 @@ export class Preferences {
 
   selectPane(key: PreferenceId) {
     this._selectedPane = key;
-  }
-
-  get twoFactorAuth() {
-    return this._twoFactorAuth;
   }
 }

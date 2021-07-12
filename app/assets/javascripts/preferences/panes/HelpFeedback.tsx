@@ -1,10 +1,9 @@
 import { FunctionComponent } from 'preact';
-import {} from '../components';
 import {
   Title,
   Subtitle,
   Text,
-  Button,
+  LinkButton,
   PreferencesGroup,
   PreferencesPane,
   PreferencesSegment,
@@ -53,7 +52,7 @@ export const HelpAndFeedback: FunctionComponent = () => (
       </PreferencesSegment>
       <PreferencesSegment>
         <Subtitle>Can’t find your question here?</Subtitle>
-        <Button label="Open FAQ" link="https://standardnotes.com/help" />
+        <LinkButton label="Open FAQ" link="https://standardnotes.com/help" />
       </PreferencesSegment>
     </PreferencesGroup>
     <PreferencesGroup>
@@ -68,7 +67,7 @@ export const HelpAndFeedback: FunctionComponent = () => (
           </a>{' '}
           before advocating for a feature request.
         </Text>
-        <Button
+        <LinkButton
           label="Go to the forum"
           link="https://forum.standardnotes.org/"
         />
@@ -82,7 +81,7 @@ export const HelpAndFeedback: FunctionComponent = () => (
           Want to share your feedback with us? Join the Standard Notes Slack
           group for discussions on security, themes, editors and more.
         </Text>
-        <Button
+        <LinkButton
           link="https://standardnotes.com/slack"
           label="Join our Slack group"
         />
@@ -94,7 +93,7 @@ export const HelpAndFeedback: FunctionComponent = () => (
         <Text>
           Send an email to help@standardnotes.org and we’ll sort it out.
         </Text>
-        <Button link="mailto: help@standardnotes.org" label="Email us" />
+        <LinkButton link="mailto: help@standardnotes.org" label="Email us" />
       </PreferencesSegment>
     </PreferencesGroup>
   </PreferencesPane>

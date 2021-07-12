@@ -1,4 +1,4 @@
-import { makeAutoObservable, observable } from 'mobx';
+import { action, makeAutoObservable, observable } from 'mobx';
 
 function getNewAuthCode() {
   const MIN = 100000;
@@ -7,21 +7,122 @@ function getNewAuthCode() {
   return code.toString();
 }
 
-class TwoFactorData {
+const activationSteps = [
+  'scan-qr-code',
+  'save-secret-key',
+  'email-recovery',
+  'verification',
+] as const;
+
+type ActivationStep = typeof activationSteps[number];
+
+export class TwoFactorActivation {
+  public readonly type = 'two-factor-activation' as const;
+
+  private _step: ActivationStep;
+
+  private _secretKey: string;
+  private _authCode: string;
+  private _allowEmailRecovery: boolean = false;
+  private _2FAVerification: 'none' | 'invalid' | 'valid' = 'none';
+
+  constructor(
+    private _cancelActivation: () => void,
+    private _enable2FA: (secretKey: string) => void
+  ) {
+    this._secretKey = 'FHJJSAJKDASKW43KJS';
+    this._authCode = getNewAuthCode();
+    this._step = 'save-secret-key';
+
+    makeAutoObservable<
+      TwoFactorActivation,
+      | '_secretKey'
+      | '_authCode'
+      | '_step'
+      | '_allowEmailRecovery'
+      | '_enable2FAVerification'
+    >(this, {
+      _secretKey: observable,
+      _authCode: observable,
+      _step: observable,
+      _allowEmailRecovery: observable,
+      _enable2FAVerification: observable,
+    });
+  }
+
+  get secretKey() {
+    return this._secretKey;
+  }
+
+  get authCode() {
+    return this._authCode;
+  }
+
+  get allowEmailRecovery() {
+    return this._allowEmailRecovery;
+  }
+
+  get step() {
+    return this._step;
+  }
+
+  get enable2FAVerification() {
+    return this._2FAVerification;
+  }
+
+  cancelActivation() {
+    this._cancelActivation;
+  }
+
+  nextScanQRCode() {
+    this._step = 'save-secret-key';
+  }
+
+  backSaveSecretKey() {
+    this._step = 'scan-qr-code';
+  }
+
+  nextSaveSecretKey() {
+    this._step = 'email-recovery';
+  }
+
+  backEmailRecovery() {
+    this._step = 'save-secret-key';
+  }
+
+  nextEmailRecovery(allowEmailRecovery: boolean) {
+    this._step = 'verification';
+    this._allowEmailRecovery = allowEmailRecovery;
+  }
+
+  backVerification() {
+    this._step = 'email-recovery';
+  }
+
+  enable2FA(secretKey: string, authCode: string) {
+    if (secretKey === this._secretKey && authCode === this._authCode) {
+      this._2FAVerification = 'valid';
+      this._enable2FA(secretKey);
+      return;
+    }
+
+    this._2FAVerification = 'invalid';
+  }
+}
+
+export class TwoFactorEnabled {
+  public readonly type = 'enabled' as const;
   private _secretKey: string;
   private _authCode: string;
 
   constructor(secretKey: string) {
     this._secretKey = secretKey;
     this._authCode = getNewAuthCode();
-    makeAutoObservable<TwoFactorData, '_secretKey' | '_authCode'>(
-      this,
-      {
-        _secretKey: observable,
-        _authCode: observable,
-      },
-      { autoBind: true }
-    );
+
+    makeAutoObservable<TwoFactorEnabled, '_secretKey' | '_authCode'>(this, {
+      _secretKey: observable,
+      _authCode: observable,
+    });
   }
 
   get secretKey() {
@@ -37,45 +138,51 @@ class TwoFactorData {
   }
 }
 
-type TwoFactorStatus = 'enabled' | 'disabled';
-
 export class TwoFactorAuth {
-  private _twoFactorStatus: TwoFactorStatus = 'disabled';
-  private _twoFactorData: TwoFactorData | null = null;
+  private _status:
+    | TwoFactorEnabled
+    | TwoFactorActivation
+    | 'two-factor-disabled' = new TwoFactorActivation(
+    () => {},
+    () => {}
+  );
 
   constructor() {
-    makeAutoObservable<TwoFactorAuth, '_twoFactorStatus' | '_twoFactorData'>(
-      this,
-      {
-        _twoFactorStatus: observable,
-        _twoFactorData: observable,
-      },
-      { autoBind: true }
-    );
+    makeAutoObservable<TwoFactorAuth, '_status'>(this, {
+      _status: observable,
+    });
   }
 
-  private activate2FA() {
-    this._twoFactorData = new TwoFactorData('FHJJSAJKDASKW43KJS');
-    this._twoFactorStatus = 'enabled';
+  private startActivation() {
+    const cancel = action(() => (this._status = 'two-factor-disabled'));
+    const enable = action(
+      (secretKey: string) => (this._status = new TwoFactorEnabled(secretKey))
+    );
+    this._status = new TwoFactorActivation(cancel, enable);
   }
 
   private deactivate2FA() {
-    this._twoFactorData = null;
-    this._twoFactorStatus = 'disabled';
+    this._status = 'two-factor-disabled';
   }
 
   toggle2FA() {
-    if (this._twoFactorStatus === 'enabled') this.deactivate2FA();
-    else this.activate2FA();
+    if (this._status === 'two-factor-disabled') this.startActivation();
+    else this.deactivate2FA();
   }
 
-  get twoFactorStatus() {
-    return this._twoFactorStatus;
+  get enabled() {
+    return (
+      (this._status instanceof TwoFactorEnabled &&
+        (this._status as TwoFactorEnabled)) ||
+      false
+    );
   }
 
-  get twoFactorData() {
-    if (this._twoFactorStatus !== 'enabled')
-      throw new Error(`Can't provide 2FA data if not enabled`);
-    return this._twoFactorData;
+  get activation() {
+    return (
+      (this._status instanceof TwoFactorActivation &&
+        (this._status as TwoFactorActivation)) ||
+      false
+    );
   }
 }
