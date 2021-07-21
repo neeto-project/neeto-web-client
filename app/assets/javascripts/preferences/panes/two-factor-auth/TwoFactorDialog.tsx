@@ -7,6 +7,10 @@ import {
 } from '@reach/alert-dialog';
 import { useRef } from 'preact/hooks';
 
+/**
+ * TwoFactorDialog is AlertDialog styled for 2FA
+ * Can be generalized but more use cases are needed
+ */
 export const TwoFactorDialog: FunctionComponent<{
   children: ComponentChildren;
 }> = ({ children }) => {
@@ -23,9 +27,9 @@ export const TwoFactorDialog: FunctionComponent<{
   );
 };
 
-export const TwoFactorDialogLabel: FunctionComponent<{ close: () => void }> = ({
-  children,
-}) => (
+export const TwoFactorDialogLabel: FunctionComponent<{
+  closeDialog: () => void;
+}> = ({ children, closeDialog }) => (
   <AlertDialogLabel className="">
     <div className="px-4 py-4 flex flex-row">
       <div className="flex-grow color-black text-lg-sm-lh font-bold">
@@ -34,7 +38,7 @@ export const TwoFactorDialogLabel: FunctionComponent<{ close: () => void }> = ({
       <IconButton
         className="color-grey-1 h-5 w-5"
         icon="close"
-        onClick={close}
+        onClick={() => closeDialog()}
       />
     </div>
     <hr className="h-1px bg-border no-border m-0" />

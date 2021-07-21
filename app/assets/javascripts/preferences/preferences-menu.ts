@@ -37,7 +37,7 @@ const PREFERENCES_MENU_ITEMS: PreferencesMenuItem[] = [
 
 export class PreferencesMenu {
   // TODO change to 'general' before merge
-  private _selectedPane: PreferenceId = 'security';
+  private _selectedPane: PreferenceId = 'general';
 
   constructor(
     private readonly _menu: PreferencesMenuItem[] = PREFERENCES_MENU_ITEMS

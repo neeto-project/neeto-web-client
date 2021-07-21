@@ -30,17 +30,21 @@ export class TwoFactorActivation {
   ) {
     this._secretKey = 'FHJJSAJKDASKW43KJS';
     this._authCode = getNewAuthCode();
-    this._step = 'verification';
+    this._step = 'scan-qr-code';
 
     makeAutoObservable<
       TwoFactorActivation,
       '_secretKey' | '_authCode' | '_step' | '_enable2FAVerification'
-    >(this, {
-      _secretKey: observable,
-      _authCode: observable,
-      _step: observable,
-      _enable2FAVerification: observable,
-    });
+    >(
+      this,
+      {
+        _secretKey: observable,
+        _authCode: observable,
+        _step: observable,
+        _enable2FAVerification: observable,
+      },
+      { autoBind: true }
+    );
   }
 
   get secretKey() {
@@ -55,28 +59,24 @@ export class TwoFactorActivation {
     return this._step;
   }
 
-  get enable2FAVerification() {
+  get verificationStatus() {
     return this._2FAVerification;
   }
 
   cancelActivation() {
-    this._cancelActivation;
+    this._cancelActivation();
   }
 
-  nextScanQRCode() {
-    this._step = 'save-secret-key';
-  }
-
-  backSaveSecretKey() {
+  openScanQRCode() {
     this._step = 'scan-qr-code';
   }
 
-  nextSaveSecretKey() {
-    this._step = 'verification';
+  openSaveSecretKey() {
+    this._step = 'save-secret-key';
   }
 
-  backVerification() {
-    this._step = 'save-secret-key';
+  openVerification() {
+    this._step = 'verification';
     this._2FAVerification = 'none';
   }
 
@@ -87,7 +87,10 @@ export class TwoFactorActivation {
       return;
     }
 
-    this._2FAVerification = 'invalid';
+    // TODO remove this
+    this._2FAVerification = 'valid';
+    this._enable2FA(secretKey);
+    // this._2FAVerification = 'invalid';
   }
 }
 
@@ -123,15 +126,13 @@ export class TwoFactorAuth {
   private _status:
     | TwoFactorEnabled
     | TwoFactorActivation
-    | 'two-factor-disabled' = new TwoFactorActivation(
-    () => {},
-    () => {}
-  );
+    | 'two-factor-disabled';
 
   constructor() {
     makeAutoObservable<TwoFactorAuth, '_status'>(this, {
       _status: observable,
     });
+    this._status = 'two-factor-disabled';
   }
 
   private startActivation() {

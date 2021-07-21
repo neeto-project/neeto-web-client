@@ -11,7 +11,18 @@ export const Button: FunctionComponent<{
   className?: string;
   type: 'normal' | 'primary';
   label: string;
-}> = ({ type, label, className = '' }) => {
+  onClick: () => void;
+}> = ({ type, label, className = '', onClick }) => {
   const buttonClass = type === 'primary' ? primary : normal;
-  return <button className={`${buttonClass} ${className}`}>{label}</button>;
+  return (
+    <button
+      className={`${buttonClass} ${className}`}
+      onClick={(e) => {
+        onClick();
+        e.preventDefault();
+      }}
+    >
+      {label}
+    </button>
+  );
 };

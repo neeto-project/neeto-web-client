@@ -33,7 +33,11 @@ export const SaveSecretKey: FunctionComponent<{
   );
   return (
     <TwoFactorDialog>
-      <TwoFactorDialogLabel close={() => {}}>
+      <TwoFactorDialogLabel
+        closeDialog={() => {
+          act.cancelActivation();
+        }}
+      >
         Step 2 of 3 - Save secret key
       </TwoFactorDialogLabel>
       <TwoFactorDialogDescription>
@@ -68,8 +72,18 @@ export const SaveSecretKey: FunctionComponent<{
         </div>
       </TwoFactorDialogDescription>
       <TwoFactorDialogButtons>
-        <Button className="min-w-20" type="normal" label="Back" />
-        <Button className="min-w-20" type="primary" label="Next" />
+        <Button
+          className="min-w-20"
+          type="normal"
+          label="Back"
+          onClick={() => act.openScanQRCode()}
+        />
+        <Button
+          className="min-w-20"
+          type="primary"
+          label="Next"
+          onClick={() => act.openVerification()}
+        />
       </TwoFactorDialogButtons>
     </TwoFactorDialog>
   );

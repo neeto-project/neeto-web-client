@@ -25,7 +25,11 @@ export const ScanQRCode: FunctionComponent<{
   );
   return (
     <TwoFactorDialog>
-      <TwoFactorDialogLabel close={() => {}}>
+      <TwoFactorDialogLabel
+        closeDialog={() => {
+          act.cancelActivation();
+        }}
+      >
         Step 1 of 3 - Scan QR code
       </TwoFactorDialogLabel>
       <TwoFactorDialogDescription>
@@ -56,8 +60,18 @@ export const ScanQRCode: FunctionComponent<{
         </div>
       </TwoFactorDialogDescription>
       <TwoFactorDialogButtons>
-        <Button className="min-w-20" type="normal" label="Cancel" />
-        <Button className="min-w-20" type="primary" label="Next" />
+        <Button
+          className="min-w-20"
+          type="normal"
+          label="Cancel"
+          onClick={() => act.cancelActivation()}
+        />
+        <Button
+          className="min-w-20"
+          type="primary"
+          label="Next"
+          onClick={() => act.openSaveSecretKey()}
+        />
       </TwoFactorDialogButtons>
     </TwoFactorDialog>
   );

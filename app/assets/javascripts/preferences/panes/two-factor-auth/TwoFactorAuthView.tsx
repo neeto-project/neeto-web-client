@@ -16,8 +16,8 @@ import { TwoFactorActivation, TwoFactorAuth } from './model';
 import { downloadSecretKey } from './download-secret-key';
 
 export const TwoFactorAuthView: FunctionComponent<{
-  tfAuth: TwoFactorAuth;
-}> = observer(({ tfAuth }) => (
+  auth: TwoFactorAuth;
+}> = observer(({ auth }) => (
   <PreferencesGroup>
     <PreferencesSegment>
       <div className="flex flex-row items-center">
@@ -28,24 +28,24 @@ export const TwoFactorAuthView: FunctionComponent<{
           </Text>
         </div>
         <Switch
-          checked={tfAuth.enabled !== false}
-          onChange={() => tfAuth.toggle2FA()}
+          checked={auth.enabled !== false}
+          onChange={() => auth.toggle2FA()}
         />
       </div>
     </PreferencesSegment>
     <PreferencesSegment>
-      {tfAuth.enabled && (
+      {auth.enabled && (
         <TwoFactorEnabledView
-          secretKey={tfAuth.enabled.secretKey}
-          authCode={tfAuth.enabled.authCode}
+          secretKey={auth.enabled.secretKey}
+          authCode={auth.enabled.authCode}
         />
       )}
 
-      {tfAuth.activation instanceof TwoFactorActivation && (
-        <TwoFactorActivationView activation={tfAuth.activation} />
+      {auth.activation instanceof TwoFactorActivation && (
+        <TwoFactorActivationView activation={auth.activation} />
       )}
 
-      {tfAuth.enabled === false && <TwoFactorDisabledView />}
+      {auth.enabled === false && <TwoFactorDisabledView />}
     </PreferencesSegment>
   </PreferencesGroup>
 ));
