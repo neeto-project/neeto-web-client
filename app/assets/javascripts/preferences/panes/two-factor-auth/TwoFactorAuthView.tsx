@@ -9,25 +9,12 @@ import { Switch } from '../../../components/Switch';
 import { observer } from 'mobx-react-lite';
 import { DecoratedInput } from '../../../components/DecoratedInput';
 import { IconButton } from '../../../components/IconButton';
-import { TwoFactorActivation, TwoFactorAuth } from '../../models';
-import { ScanQRCode } from './scan-qr-code';
-import { EmailRecovery } from './email-recovery';
-import { SaveSecretKey } from './save-secret-key';
-import { Verification } from './verification';
-
-// Temporary implementation until integration
-function downloadSecretKey(text: string) {
-  const link = document.createElement('a');
-  const blob = new Blob([text], {
-    type: 'text/plain;charset=utf-8',
-  });
-  link.href = window.URL.createObjectURL(blob);
-  link.setAttribute('download', 'secret_key.txt');
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.URL.revokeObjectURL(link.href);
-}
+import { ScanQRCode } from './ScanQRCode';
+import { EmailRecovery } from './EmailRecovery';
+import { SaveSecretKey } from './SaveSecretKey';
+import { Verification } from './Verification';
+import { TwoFactorActivation, TwoFactorAuth } from './model';
+import { downloadSecretKey } from './download-secret-key';
 
 export const TwoFactorAuthView: FunctionComponent<{
   tfAuth: TwoFactorAuth;

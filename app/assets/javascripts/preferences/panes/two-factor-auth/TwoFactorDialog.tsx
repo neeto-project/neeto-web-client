@@ -5,55 +5,7 @@ import {
   AlertDialogDescription,
   AlertDialogLabel,
 } from '@reach/alert-dialog';
-import { useEffect, useRef, useState } from 'preact/hooks';
-
-// Temporary implementation until integration
-export function downloadSecretKey(text: string) {
-  const link = document.createElement('a');
-  const blob = new Blob([text], {
-    type: 'text/plain;charset=utf-8',
-  });
-  link.href = window.URL.createObjectURL(blob);
-  link.setAttribute('download', 'secret_key.txt');
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  window.URL.revokeObjectURL(link.href);
-}
-
-export const AuthAppInfoPopup: FunctionComponent = () => {
-  const [shown, setShow] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const dismiss = () => setShow(false);
-    document.addEventListener('mousedown', dismiss);
-    return () => {
-      document.removeEventListener('mousedown', dismiss);
-    };
-  }, [ref]);
-
-  return (
-    <div className="relative">
-      <IconButton
-        icon="info"
-        className="mt-1"
-        onClick={() => {
-          setShow(!shown);
-        }}
-      />
-      {shown && (
-        <div
-          className={`bg-black color-white text-center rounded shadow-overlay \ 
-        py-1.5 px-2 absolute w-103 top-neg-10 left-neg-51`}
-        >
-          Some apps, like Google Authenticator, do not back up and restore your
-          secret keys if you lose your device or get a new one.
-        </div>
-      )}
-    </div>
-  );
-};
+import { useRef } from 'preact/hooks';
 
 export const TwoFactorDialog: FunctionComponent<{
   children: ComponentChildren;

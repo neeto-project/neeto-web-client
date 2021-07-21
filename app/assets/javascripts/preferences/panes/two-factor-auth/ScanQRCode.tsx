@@ -2,15 +2,15 @@ import { FunctionComponent } from 'preact';
 import { observer } from 'mobx-react-lite';
 import { DecoratedInput } from '../../../components/DecoratedInput';
 import { IconButton } from '../../../components/IconButton';
-import { TwoFactorActivation } from '../../models';
 import { Button } from '@/components/Button';
+import { AuthAppInfoPopup } from './download-secret-key';
+import { TwoFactorActivation } from './model';
 import {
-  AuthAppInfoPopup,
   TwoFactorDialog,
-  TwoFactorDialogButtons,
-  TwoFactorDialogDescription,
   TwoFactorDialogLabel,
-} from './utils';
+  TwoFactorDialogDescription,
+  TwoFactorDialogButtons,
+} from './TwoFactorDialog';
 
 export const ScanQRCode: FunctionComponent<{
   activation: TwoFactorActivation;

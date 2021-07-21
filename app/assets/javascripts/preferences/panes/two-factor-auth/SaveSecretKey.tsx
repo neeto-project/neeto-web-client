@@ -1,15 +1,15 @@
 import { Button } from '@/components/Button';
 import { IconButton } from '@/components/IconButton';
-import { TwoFactorActivation } from '@/preferences/models';
 import { observer } from 'mobx-react-lite';
 import { FunctionComponent } from 'preact';
+import { downloadSecretKey } from './download-secret-key';
+import { TwoFactorActivation } from './model';
 import {
-  downloadSecretKey,
   TwoFactorDialog,
   TwoFactorDialogLabel,
   TwoFactorDialogDescription,
   TwoFactorDialogButtons,
-} from './utils';
+} from './TwoFactorDialog';
 
 export const SaveSecretKey: FunctionComponent<{
   activation: TwoFactorActivation;

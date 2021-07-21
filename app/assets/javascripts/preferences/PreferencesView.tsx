@@ -1,14 +1,10 @@
 import { RoundIconButton } from '@/components/RoundIconButton';
 import { TitleBar, Title } from '@/components/TitleBar';
 import { FunctionComponent } from 'preact';
-import { PreferencesMenu } from './models/preferences';
-import { PreferencesMenuView } from './PreferencesMenu';
 import { HelpAndFeedback, Security } from './panes';
 import { observer } from 'mobx-react-lite';
-
-interface PreferencesViewProps {
-  close: () => void;
-}
+import { MenuItem } from './components';
+import { PreferencesMenu } from './preferences-menu';
 
 const PaneSelector: FunctionComponent<{
   prefs: PreferencesMenu;
@@ -39,12 +35,16 @@ const PreferencesCanvas: FunctionComponent<{
   preferences: PreferencesMenu;
 }> = observer(({ preferences: prefs }) => (
   <div className="flex flex-row flex-grow min-h-0 justify-between">
-    <PreferencesMenuView preferences={prefs}></PreferencesMenuView>
+    <PreferencesMenuView menu={prefs}></PreferencesMenuView>
     <PaneSelector prefs={prefs} />
   </div>
 ));
 
-const PreferencesView: FunctionComponent<PreferencesViewProps> = observer(
+interface PreferencesViewProps {
+  close: () => void;
+}
+
+const PreferencesView: FunctionComponent<{ close: () => void }> = observer(
   ({ close }) => {
     const prefs = new PreferencesMenu();
     return (
@@ -78,3 +78,19 @@ export const PreferencesViewWrapper: FunctionComponent<PreferencesWrapperProps> 
       <PreferencesView close={() => appState.preferences.closePreferences()} />
     );
   });
+
+export const PreferencesMenuView: FunctionComponent<{
+  menu: PreferencesMenu;
+}> = observer(({ menu }) => (
+  <div className="min-w-55 overflow-y-auto flex flex-col px-3 py-6">
+    {menu.menuItems.map((pref) => (
+      <MenuItem
+        key={pref.id}
+        iconType={pref.icon}
+        label={pref.label}
+        selected={pref.selected}
+        onClick={() => menu.selectPane(pref.id)}
+      />
+    ))}
+  </div>
+));
