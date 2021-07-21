@@ -32,6 +32,10 @@ export class TwoFactorActivation {
     this._authCode = getNewAuthCode();
     this._step = 'scan-qr-code';
 
+    // Only present for early testing
+    console.log('Secret Key', this._secretKey);
+    console.log('Auth code', this._authCode);
+
     makeAutoObservable<
       TwoFactorActivation,
       '_secretKey' | '_authCode' | '_step' | '_enable2FAVerification'
@@ -87,10 +91,7 @@ export class TwoFactorActivation {
       return;
     }
 
-    // TODO remove this
-    this._2FAVerification = 'valid';
-    this._enable2FA(secretKey);
-    // this._2FAVerification = 'invalid';
+    this._2FAVerification = 'invalid';
   }
 }
 
