@@ -44,11 +44,19 @@ interface PreferencesViewProps {
   close: () => void;
 }
 
+const blockPropagation = (e: MouseEvent) => {
+  e.stopPropagation();
+};
+
 const PreferencesView: FunctionComponent<{ close: () => void }> = observer(
   ({ close }) => {
     const prefs = new PreferencesMenu();
+
     return (
-      <div className="sn-full-screen flex flex-col bg-contrast z-index-preferences">
+      <div
+        onClick={blockPropagation}
+        className="sn-full-screen flex flex-col bg-contrast z-index-preferences"
+      >
         <TitleBar className="items-center justify-between">
           {/* div is added so flex justify-between can center the title */}
           <div className="h-8 w-8" />
