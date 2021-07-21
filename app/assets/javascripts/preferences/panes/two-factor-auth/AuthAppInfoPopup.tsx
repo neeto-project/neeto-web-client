@@ -2,7 +2,14 @@ import { IconButton } from '@/components/IconButton';
 import { FunctionComponent } from 'preact';
 import { useState, useRef, useEffect } from 'react';
 
-export const AuthAppInfoPopup: FunctionComponent = () => {
+/**
+ * AuthAppInfoPopup is an info icon that shows a tooltip when clicked
+ * Tooltip is dismissible by clicking outside
+ *
+ * Note: it can be generalized but more use cases are required
+ * @returns
+ */
+export const AuthAppInfoTooltip: FunctionComponent = () => {
   const [shown, setShow] = useState(false);
   const ref = useRef(null);
 

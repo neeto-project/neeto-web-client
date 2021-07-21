@@ -10,7 +10,6 @@ import { useRef } from 'preact/hooks';
 export const TwoFactorDialog: FunctionComponent<{
   children: ComponentChildren;
 }> = ({ children }) => {
-  // TODO discover what this does
   const ldRef = useRef<HTMLButtonElement>();
 
   return (

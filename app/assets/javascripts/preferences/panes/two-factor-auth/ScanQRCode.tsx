@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import { DecoratedInput } from '../../../components/DecoratedInput';
 import { IconButton } from '../../../components/IconButton';
 import { Button } from '@/components/Button';
-import { AuthAppInfoPopup } from './download-secret-key';
 import { TwoFactorActivation } from './model';
 import {
   TwoFactorDialog,
@@ -11,6 +10,7 @@ import {
   TwoFactorDialogDescription,
   TwoFactorDialogButtons,
 } from './TwoFactorDialog';
+import { AuthAppInfoTooltip } from './AuthAppInfoPopup';
 
 export const ScanQRCode: FunctionComponent<{
   activation: TwoFactorActivation;
@@ -38,7 +38,7 @@ export const ScanQRCode: FunctionComponent<{
               <div className="text-sm">
                 ・Open your <b>authenticator app</b>.
               </div>
-              <AuthAppInfoPopup />
+              <AuthAppInfoTooltip />
             </div>
             <div className="flex flex-row items-center">
               <div className="text-sm flex-grow">

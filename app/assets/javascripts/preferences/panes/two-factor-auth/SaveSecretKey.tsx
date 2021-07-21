@@ -1,4 +1,5 @@
 import { Button } from '@/components/Button';
+import { DecoratedInput } from '@/components/DecoratedInput';
 import { IconButton } from '@/components/IconButton';
 import { observer } from 'mobx-react-lite';
 import { FunctionComponent } from 'preact';
@@ -37,12 +38,32 @@ export const SaveSecretKey: FunctionComponent<{
       </TwoFactorDialogLabel>
       <TwoFactorDialogDescription>
         <div className="flex-grow flex flex-col gap-2">
-          <div className="text-sm">
-            ・<b>Save your secret key</b> somewhere safe:
+          <div className="flex flex-row items-center gap-1">
+            <div className="text-sm">
+              ・<b>Save your secret key</b>{' '}
+              <a
+                target="_blank"
+                href="https://standardnotes.com/help/21/where-should-i-store-my-two-factor-authentication-secret-key"
+              >
+                somewhere safe
+              </a>
+              :
+            </div>
+            <DecoratedInput
+              disabled={true}
+              right={[copy, download]}
+              text={act.secretKey}
+            />
           </div>
           <div className="text-sm">
             ・You can use this key to generate codes if you lose access to your
-            authenticator app. Learn more
+            authenticator app.{' '}
+            <a
+              target="_blank"
+              href="https://standardnotes.com/help/22/what-happens-if-i-lose-my-2fa-device-and-my-secret-key"
+            >
+              Learn more
+            </a>
           </div>
         </div>
       </TwoFactorDialogDescription>

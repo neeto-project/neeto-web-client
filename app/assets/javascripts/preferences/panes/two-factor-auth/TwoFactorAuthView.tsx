@@ -10,7 +10,6 @@ import { observer } from 'mobx-react-lite';
 import { DecoratedInput } from '../../../components/DecoratedInput';
 import { IconButton } from '../../../components/IconButton';
 import { ScanQRCode } from './ScanQRCode';
-import { EmailRecovery } from './EmailRecovery';
 import { SaveSecretKey } from './SaveSecretKey';
 import { Verification } from './Verification';
 import { TwoFactorActivation, TwoFactorAuth } from './model';
@@ -109,8 +108,6 @@ export const TwoFactorActivationView: FunctionComponent<{
     {act.step === 'scan-qr-code' && <ScanQRCode activation={act} />}
 
     {act.step === 'save-secret-key' && <SaveSecretKey activation={act} />}
-
-    {act.step === 'email-recovery' && <EmailRecovery activation={act} />}
 
     {act.step === 'verification' && <Verification activation={act} />}
   </>

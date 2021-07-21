@@ -23,7 +23,6 @@ export class TwoFactorActivation {
 
   private _secretKey: string;
   private _authCode: string;
-  private _allowEmailRecovery: boolean = false;
   private _2FAVerification: 'none' | 'invalid' | 'valid' = 'none';
 
   constructor(
@@ -36,16 +35,11 @@ export class TwoFactorActivation {
 
     makeAutoObservable<
       TwoFactorActivation,
-      | '_secretKey'
-      | '_authCode'
-      | '_step'
-      | '_allowEmailRecovery'
-      | '_enable2FAVerification'
+      '_secretKey' | '_authCode' | '_step' | '_enable2FAVerification'
     >(this, {
       _secretKey: observable,
       _authCode: observable,
       _step: observable,
-      _allowEmailRecovery: observable,
       _enable2FAVerification: observable,
     });
   }
@@ -56,10 +50,6 @@ export class TwoFactorActivation {
 
   get authCode() {
     return this._authCode;
-  }
-
-  get allowEmailRecovery() {
-    return this._allowEmailRecovery;
   }
 
   get step() {
@@ -83,20 +73,11 @@ export class TwoFactorActivation {
   }
 
   nextSaveSecretKey() {
-    this._step = 'email-recovery';
-  }
-
-  backEmailRecovery() {
-    this._step = 'save-secret-key';
-  }
-
-  nextEmailRecovery(allowEmailRecovery: boolean) {
     this._step = 'verification';
-    this._allowEmailRecovery = allowEmailRecovery;
   }
 
   backVerification() {
-    this._step = 'email-recovery';
+    this._step = 'save-secret-key';
   }
 
   enable2FA(secretKey: string, authCode: string) {
