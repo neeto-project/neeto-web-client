@@ -10,7 +10,6 @@ function getNewAuthCode() {
 const activationSteps = [
   'scan-qr-code',
   'save-secret-key',
-  'email-recovery',
   'verification',
 ] as const;
 
@@ -31,7 +30,7 @@ export class TwoFactorActivation {
   ) {
     this._secretKey = 'FHJJSAJKDASKW43KJS';
     this._authCode = getNewAuthCode();
-    this._step = 'save-secret-key';
+    this._step = 'verification';
 
     makeAutoObservable<
       TwoFactorActivation,
@@ -78,6 +77,7 @@ export class TwoFactorActivation {
 
   backVerification() {
     this._step = 'save-secret-key';
+    this._2FAVerification = 'none';
   }
 
   enable2FA(secretKey: string, authCode: string) {

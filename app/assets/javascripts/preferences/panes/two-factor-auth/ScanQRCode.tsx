@@ -26,7 +26,7 @@ export const ScanQRCode: FunctionComponent<{
   return (
     <TwoFactorDialog>
       <TwoFactorDialogLabel close={() => {}}>
-        Step 1 of 4 - Scan QR code
+        Step 1 of 3 - Scan QR code
       </TwoFactorDialogLabel>
       <TwoFactorDialogDescription>
         <div className="flex flex-row gap-3 items-center">

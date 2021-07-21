@@ -34,7 +34,7 @@ export const SaveSecretKey: FunctionComponent<{
   return (
     <TwoFactorDialog>
       <TwoFactorDialogLabel close={() => {}}>
-        Step 2 of 4 - Save secret key
+        Step 2 of 3 - Save secret key
       </TwoFactorDialogLabel>
       <TwoFactorDialogDescription>
         <div className="flex-grow flex flex-col gap-2">
