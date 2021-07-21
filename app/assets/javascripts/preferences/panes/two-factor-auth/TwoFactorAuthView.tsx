@@ -34,14 +34,14 @@ export const TwoFactorAuthView: FunctionComponent<{
       </div>
     </PreferencesSegment>
     <PreferencesSegment>
-      {auth.enabled && (
+      {auth.enabled !== false && (
         <TwoFactorEnabledView
           secretKey={auth.enabled.secretKey}
           authCode={auth.enabled.authCode}
         />
       )}
 
-      {auth.activation instanceof TwoFactorActivation && (
+      {auth.activation !== false && (
         <TwoFactorActivationView activation={auth.activation} />
       )}
 

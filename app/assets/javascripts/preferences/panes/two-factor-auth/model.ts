@@ -1,4 +1,4 @@
-import { action, makeAutoObservable, observable } from 'mobx';
+import { action, makeAutoObservable, observable, untracked } from 'mobx';
 
 function getNewAuthCode() {
   const MIN = 100000;
@@ -126,13 +126,12 @@ export class TwoFactorAuth {
   private _status:
     | TwoFactorEnabled
     | TwoFactorActivation
-    | 'two-factor-disabled';
+    | 'two-factor-disabled' = 'two-factor-disabled';
 
   constructor() {
     makeAutoObservable<TwoFactorAuth, '_status'>(this, {
       _status: observable,
     });
-    this._status = 'two-factor-disabled';
   }
 
   private startActivation() {

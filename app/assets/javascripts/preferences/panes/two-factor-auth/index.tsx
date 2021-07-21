@@ -5,6 +5,6 @@ import { TwoFactorAuth } from './model';
 import { TwoFactorAuthView } from './TwoFactorAuthView';
 
 export const TwoFactorAuthWrapper: FunctionComponent = observer(() => {
-  const tfAuth = observable(new TwoFactorAuth());
-  return <TwoFactorAuthView tfAuth={tfAuth} />;
+  const auth = observable(new TwoFactorAuth());
+  return <TwoFactorAuthView auth={auth} />;
 });
