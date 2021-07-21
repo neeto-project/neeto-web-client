@@ -101,7 +101,7 @@ GEM
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
     newrelic_rpm (7.0.0)
-    nio4r (2.5.2)
+    nio4r (2.5.7)
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
@@ -109,7 +109,7 @@ GEM
       racc (~> 1.4)
     non-stupid-digest-assets (1.0.9)
       sprockets (>= 2.0)
-    puma (4.3.5)
+    puma (4.3.8)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -213,7 +213,7 @@ DEPENDENCIES
   dotenv-rails
   haml
   lograge (~> 0.11.2)
-  newrelic_rpm
+  newrelic_rpm (~> 7.0)
   non-stupid-digest-assets
   puma
   rack-cors
